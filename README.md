@@ -64,8 +64,8 @@ Nuestros dataframe 'train.parquet' luce así después de los cambios.
 Después de tener los datos limpios, y observando el requerimiento del cliente nos enfocamos en implementar un modelo de aprendizaje supervisado llamado árbol del decisión.
 * Predicción\
 Se entrena el modelo y se utilizan métodos como GridSerachCV para escoger los mejores hiperparámetros de nuestro modelo.\
-+ Rendimiento del modelo\
-Para evaluar el desempeño del modelo, se utilizaron las métricas de Exhaustividad (Recall) de precisión (Accuracy), basándonos en la matriz de confusión.
++ Rendimiento del modelo
+Para evaluar el desempeño del modelo, se utilizaron las métricas de Exhaustividad (Recall) de precisión (Accuracy), basándonos en la matriz de confusión,
  el cual nos arroja:
     * `Recall: 0.9013`
     * `Accuracy: 0.9047` 
