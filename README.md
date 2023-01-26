@@ -1,5 +1,4 @@
 <h1 align="center"> Prediction prices houses EE.UU- Machine Learning </h1>
-Este es un proyecto enfocado en el área de Machine Learning en el cual se van a desarollar dos modelos: uno de aprendizaje supervisado y otro de aprendizaje no supervisado, los cuales se entrenarán para predecir el precio de una propiedad en EE.UU.
 
 <p align="center">
    <img src="https://img.shields.io/badge/STATUS-%20FINALIZADO-green">
@@ -10,11 +9,9 @@ Este es un proyecto enfocado en el área de Machine Learning en el cual se van a
 
 * [Decripción del proyecto](#Descripción-del-proyecto)
 
+* [Descripción del problema](#Descripción-del-problema)
+
 * [Desarrollo del proyecto](#Desarrollo-del-proyecto)
-
-* [Link deployment](#Link-deployment)
-
-* [Link video demostrativo](#Link-video-demostrativo)
 
 * [Principales tecnologías utilizadas](#Principales-tecnologías-utilizadas)
 
@@ -23,68 +20,84 @@ Este es un proyecto enfocado en el área de Machine Learning en el cual se van a
 * [Conclusiones](#Conclusiones)
 
 ## Introducción
-Hola, mi nombre es Camilo Pedreros :wave: y hoy quiero compartirles mi primer proyecto
-en la ciencia de datos. Este proyecto se enfoca al área de data engineering con el objetivo de realizar un proceso de ETL para después disponibilizar los datos en la web para futuras consultas.
+Hola a todos, hoy quiero compartirles un proyecto enfocado en el área de Machine Learning en el cual se van a desarollar dos modelos: uno de aprendizaje supervisado y otro de aprendizaje no supervisado, los cuales se entrenarán para predecir el precio de una propiedad en EE.UU. 
 
 ## Descripción del proyecto
-Como parte del equipo de data de una empresa, el área de análisis de datos solicita al área de Data Engineering (nosotros) ciertos requerimientos para el óptimo desarrollo de sus actividades.
-Se nos pide realizar  las transformaciones requeridas a los datasets dados que contienen información sobre películas de distintas plataformas y después disponibilizar los datos mediante la elaboración y ejecución de una API.
 
+### *Mercado inmobiliario*
+​Dentro de la sociedad globalizada e industrializada, es sabido que los precios de los inmuebles han presentado un constante cambio, por lo que quienes deseen invertir o vender una propiedad se enfrentan al fenómeno especulativo existente en la valorización de éstos. Esto, debido a la constante tendencia de las ciudades a crecer demográfica y comercialmente, llegando a un punto en donde no se tiene certeza de la valorización real dentro del sector en donde se desee invertir.​Pese a que el precio depende, en cierta medida, de las tendencias que esté teniendo el mercado inmobiliario en un determinado tiempo, poder estimar adecuadamente el valor de una propiedad es una referencia clave para entender si es una buena oportunidad, ya sea de compra o de venta.​
 
-## Desarrollo del proyecto
+## Descripción del problema
+
+Hemos sido contactados para el área de Machine Learning de una importante empresa inversora dentro del rubro de la inmobiliaria en Estados Unidos. ​El Team Lider le propone dos predicciones posibles, de las cuales puede elegir cuál realizar (o ambas si así lo quiere):​
+
+1. Implementar un modelo de clasificación con aprendizaje supervisado que permita clasificar el precio de las propiedades en venta, utilizando los datos que se han puesto a su disposición. ​Para esto debe crear la columna category_price, en la cual se consideran las siguientes categorías:
+    * 'low': Para precios entre 0 y 999 dólares (debe tomar valor 1 en el archivo con las predicciones).
+    * 'high': Para precios desde 1000 dólares en adelante (debe tomar valor 0 en el archivo con las predicciones). ​Considerando esta categorización, el objetivo es predecir si una propiedad pertenece a la categoría de precios bajos (low).​
+2. Implementar un modelo de clasificación con aprendizaje no supervisado, utilizando clustering que agrupe las propiedades por segun las siguientes categorias:
+    * 'low': Para precios entre 0 y 999 dólares (debe tomar valor 1 en el archivo con las predicciones).
+    * 'medium': Para precios entre 1000 y 1999 dólares (debe tomar valor 0 en el archivo con las predicciones).
+    * 'high': Para precios desde 2000 dólares en adelante (debe tomar valor 0 en el archivo con las predicciones).​
+
+Para ello, solo usaran el dataset de test provisto, eliminando previamente las caracteristicas que presenten nulos.​
+
+# Desarrollo del proyecto
+
+## Modelo de aprendizaje supervisado
 
 *  EDA \
-Primero cargamos los datos usando la libreria pandas, y realizamos las siguientes solo las  transformaciones solicitadas, las cuales son:
-    + Generar campo id: Cada id se compondrá de la primera letra del nombre de la plataforma, seguido del show_id ya presente en los datasets 
-    + Los valores nulos del campo rating deberán reemplazarse por el string “G” (corresponde al maturity rating: “general for all audiences”
-    + Las fechas deberán tener el formato AAAA-mm-dd
-    + Los campos de texto deberán estar en minúsculas, sin excepciones
-    + El campo duration debe convertirse en dos campos: duration_int y duration_type. El primero será un integer y el segundo un string indicando la unidad de medición de duración: min (minutos) o season (temporadas).
-Finalmente se concatenan los 4 dataframes para poder hacer las consultas sobre uno solo y se exporta en formato csv con el nombre 'movies.csv'
-* Desarrollo API \
-Después de tener los datos limpios, y observando el requerimiento del cliente nos enfocamos en implementar el desarrollo del framework FastAPI, en la cual se requieren las siguientes consultas.
-    + Cantidad de veces que aparece una keyword en el título de peliculas/series, por plataforma
-    + Cantidad de películas por plataforma con un puntaje mayor a XX en determinado año
-    + La segunda película con mayor score para una plataforma determinada, según el orden alfabético de los títulos
-    + Película que más duró según año, plataforma y tipo de duración
-    + Cantidad de series y películas por rating
-* Deployment on Deta \
-Dentro del directorio creamos la carpeta FastAPI_deta en la cual deberemos tener el archivo 'main.py', 'requirements.txt' y el archivo 'movies.csv'.
-<p align="center">
-  <img width="200" height="172" src="Images/dependencias.jpg">
-</p>
-Finalmente para hacer el deployment en deta primero creamos una nueva cuenta en https://web.deta.sh/, luego ingresamos a la terminal y navegamos hasta el directorio del proyecto y ejecutamos los siguientes comandos:
+Primero cargamos los datos usando la libreria pandas, y realizamos las siguientes transformaciones para poder entrenar nuestro modelo.
+    + Para las columnas 'laundry_options' y 'parking_options' rellenamos los nulos con la moda y para las columnas 'lat' y 'long' borramos los nulos.
+    + Borramos las columnas 'id', 'url', 'region_url', 'image_url','description' las cuales contienen texto y no son relevantes para el modelo.
+    + Para las columnas 'lat' y 'long' nos enfocamos en reestringir las latitudes y longitudes a las pertenecientes a EE.UU.
+    + Creamos la columna 'category_price' y luego la codificamos con one hot encoder para finalmente borrar las columnas  'category_price' y 'price'.
+    +Las columnas categóricas también las codificamos para convertirlas a numéricas.
+    + Finalmente hacemos los mismos cambios en el dataset 'test.parquet' pero sin borrar nulos.
 
-* `iwr https://get.deta.dev/cli.ps1 -useb | iex` (instalar deta CLI para usar deta localmente)
-* `deta --help` (para verficar la correcta instalacion)
-* `deta --login` (para iniciar sesión en Deta desde la CLI)
-* `deta new` (para crear un nuevo micro)
-* `deta visor enable` (para habilitar el visor)
-* `deta auth enable` (para habilitar el auth path)
-
-Corriendo los comandos anteriores en su orden tenemos un deployment éxitoso.
+Nuestros dataframe 'train.parquet' luce así después de los cambios.
 <p align="center">
-  <img width="700" height="450" src="Images/APIweb.png">
+  <img width="7000" height="280" src="Images/datatrain.png">
 </p>
 
-## Link deployment 
-https://tvfldy.deta.dev/docs#/
+## Desarrollo del modelo
 
-## Link video demostrativo 
-https://www.youtube.com/watch?v=LLAnmU8L0rU
+Después de tener los datos limpios, y observando el requerimiento del cliente nos enfocamos en implementar un modelo de aprendizaje supervisado llamado árbol del decisión.
+* Predicción\
+Se entrena el modelo y se utilizan métodos como GridSerachCV para escoger los mejores hiperparámetros de nuestro modelo.\
++ Rendimiento del modelo\
+Para evaluar el desempeño del modelo, se utilizaron las métricas de Exhaustividad (Recall) de precisión (Accuracy), basándonos en la matriz de confusión.
+ el cual nos arroja:
+    * `Recall: 0.9013`
+    * `Accuracy: 0.9047` 
+
+Como los resultados estan por encima de 90 indica que el modelo predice muy bien con datos nuevos. 
+
+## Aprendizaje no supervisado
+Para esta instancia nos enfocamos en algoritmos de clustering como el algoritmo de k-means el cual nos ayudará a agrupar en las tres categorías que nos piden: 'low', 'medium' y 'high'.
+
+* Modelado\
+Se crea el modelo de aprendizaje no supervisado  (k-means), usando el dataset 'test.parquet' y previamente haciendo limpieza de los datos.
+
++ Rendimiento del modelo\
+Para evaluar el desempeño del modelo, se utiliza las métrica  de `Silhouette score`. La cual nos arroja:
+    * `Silhouette score: 0.6235`
+
+El cual es número cercano a 1, lo cual indica que nuestro modelo no es el mejor pero predice bastante bien.
 
 ## Principales tecnologías utilizadas
 
 * Python
     + pandas
-    + fastapi
-* Deta
+    + scikit learn
+    + seaborn
+    + matplotlib
 
 ## Información del proyecto
-Puede encontrar toda la información inicial de este proyecto en: https://github.com/HX-FNegrete/PI01-Data-Engineering
-## Conclusiones
+Puede encontrar toda la información inicial de este proyecto en: https://github.com/soyHenry/Datathon.git
 
-Este primer proyecto me gustó mucho ya que aparte del clasico ETL que se conoce en el área de data engineering, se hizo el desarrollo y ejecucion de una API en la web para así poder hacer consultas a los datos sin necesidad de escribir nada de código, lo cual es muy valioso para el área de data analytics ya que se pueden enfocar a encontrar directamente a encontrar insights valiosos para la empresa.
+## Conclusiones:
+
+Este fue un proyecto desafiante en el que se logra interiorizar los conceptos de Machine Learning, Aprendizaje supervisado no supervisado así mismo los diferentes algorítmos de clasificación. En este proyecto see logra el objetivo principal, el cual era predecir el precio de una propiedad en los Estados Unidos usando alguno de las dos ramas del ML.
 
 Gracias por haber llegado hasta aquí 💛.
 
