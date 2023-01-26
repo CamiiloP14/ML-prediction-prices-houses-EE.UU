@@ -51,7 +51,7 @@ Primero cargamos los datos usando la libreria pandas, y realizamos las siguiente
     + Borramos las columnas 'id', 'url', 'region_url', 'image_url','description' las cuales contienen texto y no son relevantes para el modelo.
     + Para las columnas 'lat' y 'long' nos enfocamos en reestringir las latitudes y longitudes a las pertenecientes a EE.UU.
     + Creamos la columna 'category_price' y luego la codificamos con one hot encoder para finalmente borrar las columnas  'category_price' y 'price'.
-    +Las columnas categóricas también las codificamos para convertirlas a numéricas.
+    + Las columnas categóricas también las codificamos para convertirlas a numéricas.
     + Finalmente hacemos los mismos cambios en el dataset 'test.parquet' pero sin borrar nulos.
 
 Nuestros dataframe 'train.parquet' luce así después de los cambios.
