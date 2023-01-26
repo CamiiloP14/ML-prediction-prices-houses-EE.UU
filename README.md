@@ -1,7 +1,5 @@
-# ML-prediction-prices-huses-EE.UU
+<h1 align="center"> Prediction prices houses EE.UU- Machine Learning </h1>
 Este es un proyecto enfocado en el área de Machine Learning en el cual se van a desarollar dos modelos: uno de aprendizaje supervisado y otro de aprendizaje no supervisado, los cuales se entrenarán para predecir el precio de una propiedad en EE.UU.
-<h1 align="center"> ETL+FastAPI+Deta en Python- Data engineering </h1>
-
 <p align="center">
    <img src="https://img.shields.io/badge/STATUS-%20FINALIZADO-green">
    </p>
